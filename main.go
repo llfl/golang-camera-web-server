@@ -16,7 +16,7 @@ import (
 var (
     err      error
     webcam   *gocv.VideoCapture
-    frame_id int
+    frameID int
 )
 
 var buffer = make(map[int][]byte)
@@ -32,8 +32,10 @@ func main() {
         fmt.Println(">> device /dev/video0 (default)")
         webcam, err = gocv.VideoCaptureDevice(0)
     } else {
+        // fmt.Println(">> file/url :: " + os.Args[1])
+        // webcam, err = gocv.VideoCaptureFile(os.Args[1])
         fmt.Println(">> file/url :: " + os.Args[1])
-        webcam, err = gocv.VideoCaptureFile(os.Args[1])
+        webcam, err = gocv.VideoCaptureDevice(1)
     }
 
     if err != nil {
@@ -80,7 +82,7 @@ func getframes() {
         if img.Empty() {
             continue
         }
-        frame_id++
+        frameID++
         gocv.Resize(img, &img, image.Point{}, float64(0.5), float64(0.5), 0)
         frame, _ = gocv.IMEncode(".jpg", img)
 
